@@ -1,4 +1,4 @@
-XML settings addon for standard settings.
+**XML settings addon for standard settings - for of 0.10**
 
 	// basic notes: 
 	// - do not start a variable name with a digit. XML will not handle this
