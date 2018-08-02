@@ -1,0 +1,27 @@
+<SETTINGS>
+	<flag1>0</flag1>
+	<einint>34928</einint>
+	<einefloat>0.4</einefloat>
+	<einstring>mehr über Torf</einstring>
+	<beige>
+		<r>100</r>
+		<g>234</g>
+		<b>23</b>
+		<a>200</a>
+	</beige>
+	<punkt1>
+		<x>21</x>
+		<y>432</y>
+	</punkt1>
+	<dreiDPunkt>
+		<x>62</x>
+		<y>54</y>
+		<z>453</z>
+	</dreiDPunkt>
+	<vierdddd>
+		<x>214</x>
+		<y>12</y>
+		<z>85</z>
+		<w>45</w>
+	</vierdddd>
+</SETTINGS>
