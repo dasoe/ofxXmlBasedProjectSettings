@@ -32,8 +32,8 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 			ofExit();
 		}
 
-		if (XML.getChild("debug")) {
-			debug = XML.getChild("debug").getBoolValue();
+		if (XML.exists("debug")) {
+			debug = XML.getValue<bool>("debug");
 			startMessages += "XML value found. debug set to " + ofToString(debug) + lineBreak;
 		}
 		else {
@@ -58,8 +58,8 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 	for (const auto& iterator : xmlStringValue) {
 		//ofLogNotice(iterator.second.defaultValue);
 		//ofLogNotice(ofToString(iterator.second.saveAutomatically));
-		if (XML.getChild(iterator.first)) {
-			xmlStringValue[iterator.first].value = XML.getChild(iterator.first).getValue();
+		if (XML.exists(iterator.first)) {
+			xmlStringValue[iterator.first].value = XML.getValue<string>(iterator.first);
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
 		}
 		else {
@@ -76,8 +76,8 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 	}
 
 	for (const auto& iterator : xmlIntValue) {
-		if (XML.getChild(iterator.first)) {
-			xmlIntValue[iterator.first].value = XML.getChild(iterator.first).getIntValue();
+		if (XML.exists(iterator.first)) {
+			xmlIntValue[iterator.first].value = XML.getValue<int>(iterator.first);
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
 		}
 		else {
@@ -94,8 +94,8 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 	}
 
 	for (const auto& iterator : xmlBooleanValue) {
-		if (XML.getChild(iterator.first)) {
-			xmlBooleanValue[iterator.first].value = XML.getChild(iterator.first).getBoolValue();
+		if (XML.exists(iterator.first)) {
+			xmlBooleanValue[iterator.first].value = XML.getValue<bool>(iterator.first);
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
 		}
 		else {
@@ -113,8 +113,9 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 	}
 
 	for (const auto& iterator : xmlFloatValue) {
-		if (XML.getChild(iterator.first)) {
-			xmlFloatValue[iterator.first].value = XML.getChild(iterator.first).getFloatValue();
+		if (XML.exists(iterator.first)) {
+
+			xmlFloatValue[iterator.first].value = XML.getValue<float>(iterator.first);
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
 		}
 		else {
@@ -132,11 +133,12 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 	}
 
 	for (const auto& iterator : xmlVec2fValue) {
-		if (XML.getChild(iterator.first)) {
-			ofXml inside = XML.getChild(iterator.first);
+		if (XML.exists(iterator.first)) {
+			XML.setTo(iterator.first);
 
-			xmlVec2fValue[iterator.first].value = ofVec2f(inside.getChild("x").getFloatValue(), inside.getChild("x").getFloatValue());
+			xmlVec2fValue[iterator.first].value = ofVec2f(XML.getValue<float>("x"), XML.getValue<float>("y"));
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			XML.setToParent();
 		}
 		else {
 				xmlVec2fValue[iterator.first].value = iterator.second.defaultValue;
@@ -145,11 +147,12 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 	}
 
 	for (const auto& iterator : xmlVec3fValue) {
-		if (XML.getChild(iterator.first)) {
-			ofXml inside = XML.getChild(iterator.first);
+		if (XML.exists(iterator.first)) {
+			XML.setTo(iterator.first);
 
-			xmlVec3fValue[iterator.first].value = ofVec3f(inside.getChild("x").getFloatValue(), inside.getChild("x").getFloatValue(), inside.getChild("z").getFloatValue());
+			xmlVec3fValue[iterator.first].value = ofVec3f(XML.getValue<float>("x"), XML.getValue<float>("y"), XML.getValue<float>("z"));
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			XML.setToParent();
 		}
 		else {
 
@@ -159,11 +162,12 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 	}
 
 	for (const auto& iterator : xmlVec4fValue) {
-		if (XML.getChild(iterator.first)) {
-			ofXml inside = XML.getChild(iterator.first);
+		if (XML.exists(iterator.first)) {
+			XML.setTo(iterator.first);
 
-			xmlVec3fValue[iterator.first].value = ofVec4f(inside.getChild("x").getFloatValue(), inside.getChild("x").getFloatValue(), inside.getChild("z").getFloatValue(), inside.getChild("w").getFloatValue());
+			xmlVec4fValue[iterator.first].value = ofVec4f(XML.getValue<float>("x"), XML.getValue<float>("y"), XML.getValue<float>("z"), XML.getValue<float>("w"));
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			XML.setToParent();
 		}
 		else {
 
@@ -173,11 +177,12 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 	}
 
 	for (const auto& iterator : xmlColorValue) {
-		if (XML.getChild(iterator.first)) {
-			ofXml inside = XML.getChild(iterator.first);
+		if (XML.exists(iterator.first)) {
+			XML.setTo(iterator.first);
 
-			xmlColorValue[iterator.first].value = ofColor( inside.getChild("r").getFloatValue(), inside.getChild("g").getFloatValue(), inside.getChild("b").getFloatValue() );
+			xmlColorValue[iterator.first].value = ofColor(XML.getValue<float>("r"), XML.getValue<float>("g"), XML.getValue<float>("b"), XML.getValue<float>("a"));
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			XML.setToParent();
 		}
 		else {
 			if (iterator.second.defaultValue == NULL) {
@@ -207,23 +212,21 @@ void ofxXmlBasedProjectSettings::setLogSettings() {
 	else {
 		ofSetLogLevel(OF_LOG_NOTICE);
 		// check how much to log
-		if (XML.getChild("verbose")) {
-			verbose = XML.getChild("verbose").getBoolValue();
+		if (XML.exists("verbose")) {
+			verbose = XML.getValue<bool>("verbose");
 			startMessages += "XML value found. verbose set to " + ofToString(verbose) + lineBreak;;
 		}
 		else {
 			verbose = true;
 			startMessages += "no XML value found. verbose set to true" + lineBreak;;
 		}
-
-
 		if (verbose) {
 			ofSetLogLevel(OF_LOG_VERBOSE);
 		}
 
 		// check where to log (screen or file)
-		if (XML.getChild("logToFile")) {
-			logToFile = XML.getChild("logToFile").getBoolValue();
+		if (XML.exists("logToFile")) {
+			logToFile = XML.getValue<bool>("logToFile");
 			startMessages += "XML value found. logToFile set to " + ofToString(logToFile) + lineBreak;;
 			ofLog(OF_LOG_NOTICE, "XML value found. logToFile set to " + ofToString(logToFile));
 		}
@@ -454,9 +457,9 @@ void ofxXmlBasedProjectSettings::setColorValue(string name, ofColor newValue, bo
 // #################### XML altering and save preparation stuff #####################
 //--------------------------------------------------------------
 void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, string newValue) {
-
-	if (XML.getChild(name)) {
-		XML.getChild(name).set(newValue);
+	XML.setTo("//SETTINGS");
+	if (XML.exists(name)) {
+		XML.setValue(name, newValue);
 	}
 	else {
 		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
@@ -468,28 +471,29 @@ void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, string newVal
 
 //--------------------------------------------------------------
 void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofColor newValue) {
-
-	if (XML.getChild(name)) {
-		ofXml inside = XML.getChild(name);
+	XML.setTo("//SETTINGS");
+	if (XML.exists(name)) {
+		XML.setTo(name);
 		if (
-			inside.getChild("r") &&
-			inside.getChild("g") &&
-			inside.getChild("b") &&
-			inside.getChild("a")
+			XML.exists("r") &&
+			XML.exists("g") &&
+			XML.exists("b") &&
+			XML.exists("a") 
 			) {
 			// directly (ofToString(newValue.r)) it will not work, do not know why, so first to int
 			int rot = newValue.r;
 			int gruen = newValue.g;
 			int blau = newValue.b;
 			int alpha = newValue.a;
-			inside.getChild("r").set(ofToString(rot));
-			inside.getChild("g").set(ofToString(gruen));
-			inside.getChild("b").set(ofToString(blau));
-			inside.getChild("a").set(ofToString(alpha));
+			XML.setValue("r", ofToString(rot));
+			XML.setValue("g", ofToString(gruen));
+			XML.setValue("b", ofToString(blau));
+			XML.setValue("a", ofToString(alpha));
 		}
 		else {
 			ofLogWarning("Versuch in " + ofToString(pathToXML) + " in einen nicht vorhandenen Sub-Knoten (r/g/b/a) von " + ofToString(name) + " zu speichern. Sub-Knoten bitte manuell anlegen.");
 		}
+		XML.setToParent();
 	}
 	else {
 		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
@@ -500,20 +504,22 @@ void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofColor newVa
 
 //--------------------------------------------------------------
 void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofVec2f newValue) {
-
-	if (XML.getChild(name)) {
-		ofXml inside = XML.getChild(name);
+	XML.setTo("//SETTINGS");
+	if (XML.exists(name)) {
+		XML.setTo(name);
 		if (
-			inside.getChild("x") &&
-			inside.getChild("y")
+			XML.exists("x") &&
+			XML.exists("y") 
 			) {
 
-			inside.getChild("x").set(ofToString(newValue.x));
-			inside.getChild("y").set(ofToString(newValue.y));
+			XML.setValue("x", ofToString(newValue.x));
+			XML.setValue("y", ofToString(newValue.y));
 		}
 		else {
 			ofLogWarning("Versuch in " + ofToString(pathToXML) + " in einen nicht vorhandenen Sub-Knoten (x/y) von " + ofToString(name) + " zu speichern. Sub-Knoten bitte manuell anlegen.");
 		}
+
+		XML.setToParent();
 	}
 	else {
 		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
@@ -524,23 +530,24 @@ void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofVec2f newVa
 
 //--------------------------------------------------------------
 void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofVec3f newValue) {
-
-	if (XML.getChild(name)) {
-		ofXml inside = XML.getChild(name);
+	XML.setTo("//SETTINGS");
+	if (XML.exists(name)) {
+		XML.setTo(name);
 		if (
-			inside.getChild("x") &&
-			inside.getChild("y") &&
-			inside.getChild("z")
+			XML.exists("x") &&
+			XML.exists("y") &&
+			XML.exists("z")
 			) {
 
-			inside.getChild("x").set(ofToString(newValue.x));
-			inside.getChild("y").set(ofToString(newValue.y));
-			inside.getChild("z").set(ofToString(newValue.z));
+			XML.setValue("x", ofToString(newValue.x));
+			XML.setValue("y", ofToString(newValue.y));
+			XML.setValue("z", ofToString(newValue.z));
 		}
 		else {
 			ofLogWarning("Versuch in " + ofToString(pathToXML) + " in einen nicht vorhandenen Sub-Knoten (x/y/z) von " + ofToString(name) + " zu speichern. Sub-Knoten bitte manuell anlegen.");
 		}
 
+		XML.setToParent();
 	}
 	else {
 		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
@@ -551,25 +558,26 @@ void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofVec3f newVa
 
 //--------------------------------------------------------------
 void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofVec4f newValue) {
-
-	if (XML.getChild(name)) {
-		ofXml inside = XML.getChild(name);
+	XML.setTo("//SETTINGS");
+	if (XML.exists(name)) {
+		XML.setTo(name);
 		if (
-			inside.getChild("x") &&
-			inside.getChild("y") &&
-			inside.getChild("z") &&
-			inside.getChild("w")
+			XML.exists("x") &&
+			XML.exists("y") &&
+			XML.exists("z") &&
+			XML.exists("w")
 			) {
 
-			inside.getChild("x").set(ofToString(newValue.x));
-			inside.getChild("y").set(ofToString(newValue.y));
-			inside.getChild("z").set(ofToString(newValue.z));
-			inside.getChild("w").set(ofToString(newValue.w));
+			XML.setValue("x", ofToString(newValue.x));
+			XML.setValue("y", ofToString(newValue.y));
+			XML.setValue("z", ofToString(newValue.z));
+			XML.setValue("w", ofToString(newValue.w));
 		}
 		else {
 			ofLogWarning("Versuch in " + ofToString(pathToXML) + " in einen nicht vorhandenen Sub-Knoten (x/y/z/w) von " + ofToString(name) + " zu speichern. Sub-Knoten bitte manuell anlegen.");
 		}
 
+		XML.setToParent();
 	}
 	else {
 		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
