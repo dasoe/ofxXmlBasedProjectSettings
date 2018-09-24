@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 **XML settings addon for standard settings - for of 0.10**
 Basic xml variable handling and standard features I need in nearly any project:
 - getters and setters for most common variable types (no groups, though)
@@ -6,9 +5,6 @@ Basic xml variable handling and standard features I need in nearly any project:
 - optional auto-saving at setting of variable (note that variable has to be present in xml file for this function. It will not be auto-created!)
 - verbose output of what's happening
 - logging functionality included: log level and log type (terminal/file) can be defined through standard xml variables
-=======
-**XML settings addon for standard settings - for of 0.10.x**
->>>>>>> master
 
 
 
