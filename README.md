@@ -1,4 +1,4 @@
-**XML settings addon for standard settings - for of 0.9.x (and older)**
+**XML settings addon for standard settings - for of 0.9.x (and older)**  
 Basic xml variable handling and standard features I need in nearly any project:
 - getters and setters for most common variable types (no groups, though)
 - Default variables in code that will be overwritten if variable is present in xml file
