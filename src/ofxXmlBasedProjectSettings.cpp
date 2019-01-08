@@ -135,7 +135,7 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 		if (XML.getChild(iterator.first)) {
 			ofXml inside = XML.getChild(iterator.first);
 
-			xmlVec2fValue[iterator.first].value = ofVec2f(inside.getChild("x").getFloatValue(), inside.getChild("x").getFloatValue());
+			xmlVec2fValue[iterator.first].value = ofVec2f(inside.getChild("x").getFloatValue(), inside.getChild("y").getFloatValue());
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
 		}
 		else {
@@ -148,7 +148,7 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 		if (XML.getChild(iterator.first)) {
 			ofXml inside = XML.getChild(iterator.first);
 
-			xmlVec3fValue[iterator.first].value = ofVec3f(inside.getChild("x").getFloatValue(), inside.getChild("x").getFloatValue(), inside.getChild("z").getFloatValue());
+			xmlVec3fValue[iterator.first].value = ofVec3f(inside.getChild("x").getFloatValue(), inside.getChild("y").getFloatValue(), inside.getChild("z").getFloatValue());
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
 		}
 		else {
@@ -162,7 +162,7 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 		if (XML.getChild(iterator.first)) {
 			ofXml inside = XML.getChild(iterator.first);
 
-			xmlVec3fValue[iterator.first].value = ofVec4f(inside.getChild("x").getFloatValue(), inside.getChild("x").getFloatValue(), inside.getChild("z").getFloatValue(), inside.getChild("w").getFloatValue());
+			xmlVec3fValue[iterator.first].value = ofVec4f(inside.getChild("x").getFloatValue(), inside.getChild("y").getFloatValue(), inside.getChild("z").getFloatValue(), inside.getChild("w").getFloatValue());
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
 		}
 		else {
@@ -176,7 +176,7 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 		if (XML.getChild(iterator.first)) {
 			ofXml inside = XML.getChild(iterator.first);
 
-			xmlColorValue[iterator.first].value = ofColor( inside.getChild("r").getFloatValue(), inside.getChild("g").getFloatValue(), inside.getChild("b").getFloatValue() );
+			xmlColorValue[iterator.first].value = ofColor( inside.getChild("r").getFloatValue(), inside.getChild("g").getFloatValue(), inside.getChild("b").getFloatValue(), (inside.getChild("a")) ? inside.getChild("a").getFloatValue() : 255);
 			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
 		}
 		else {
