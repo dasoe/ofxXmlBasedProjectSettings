@@ -4,7 +4,7 @@ Basic xml variable handling and standard features I need in nearly any project:
 - Default variables in code that will be overwritten if variable is present in xml file
 - optional auto-saving at setting of variable (note that variable has to be present in xml file for this function. It will not be auto-created!)
 - verbose output of what's happening
-- logging functionality included: log level and log type (terminal/file) can be defined through standard xml variables
+- logging functionality included: log level and log type (terminal/file) can be defined through standard xml variables (variable "debug" has been renamed to "logging"! as it is much more appropriate)
 
 
 
@@ -43,12 +43,12 @@ How to use (also see example project):
 
     // init the xml. The added variables will be processed  
     //  
-    // Second parameter switches on debug stuff: When true, the variables "debug", "verbose" and "logToFile" will be added, which control the debug output  
+    // Second parameter switches on logging stuff: When true, the variables "logging", "verbose" and "logToFile" will be added, which control the logging output  
     // (everything that is sent through ofLog functions). Should be used in the main/first xml object/file  
     settingsXml.init("settings.xml",true);  
 
 
-    // do the same for other objects/files, but debug stuff should not be used another time (as it used for App in general it would not make any sense to do it 2 times)  
+    // do the same for other objects/files, but logging stuff should not be used another time (as it used for App in general it would not make any sense to do it 2 times)  
 
 	otherXml.addInt("otherInt", 156);  
 	otherXml.addVec2f("punkt1", ofVec2f(10, 23));  

@@ -29,7 +29,7 @@ void ofApp::setup(){
 	// Step 2: 
 	// init the xml. The added variables will be processed
 	//
-	// Second parameter switches on debug stuff: When true, the variables "debug", "verbose" and "logToFile" will be added, which control the debug output
+	// Second parameter switches on logging stuff: When true, the variables "logging", "verbose" and "logToFile" will be added, which control the logging output
 	// (everything that is sent through ofLog functions). Should be used in the main/first xml object/file
 	settingsXml.init("settings.xml",true);
 

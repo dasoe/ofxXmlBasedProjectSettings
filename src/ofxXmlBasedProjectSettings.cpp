@@ -5,14 +5,14 @@ void ofxXmlBasedProjectSettings::init(string path) {
 	init(path, false);
 }
 // -------------------------------
-void ofxXmlBasedProjectSettings::init(string path, bool debugInit) {
+void ofxXmlBasedProjectSettings::init(string path, bool loggingInit) {
 	pathToXML = path;
-	readValuesFromXml(debugInit);
+	readValuesFromXml(loggingInit);
 }
 
 // -------------------------------
-void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
-	if (debugInit) {
+void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
+	if (loggingInit) {
 		lineBreak = "\n  ";
 		startMessages = "";
 		// ---------------------- settings on file ------------------------------
@@ -32,16 +32,16 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 			ofExit();
 		}
 
-		if (XML.getChild("debug")) {
-			debug = XML.getChild("debug").getBoolValue();
-			startMessages += "XML value found. debug set to " + ofToString(debug) + lineBreak;
+		if (XML.getChild("logging")) {
+			logging = XML.getChild("logging").getBoolValue();
+			startMessages += "XML value found. logging set to " + ofToString(logging) + lineBreak;
 		}
 		else {
-			debug = true;
-			startMessages += "no XML value found. debug set to true" + lineBreak;
+			logging = true;
+			startMessages += "no XML value found. logging set to true" + lineBreak;
 		}
 
-		// ------- set Log settings depending on first XML Value (debug) ---------
+		// ------- set Log settings depending on first XML Value (logging) ---------
 		setLogSettings();
 	}
 	else {
@@ -201,7 +201,7 @@ void ofxXmlBasedProjectSettings::setLogSettings() {
 
 	// --------- LOG SETTINGS ---------
 	// log something at all?
-	if (!debug) {
+	if (!logging) {
 		ofSetLogLevel(OF_LOG_FATAL_ERROR);
 	}
 	else {
