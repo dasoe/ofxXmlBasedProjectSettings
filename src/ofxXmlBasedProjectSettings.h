@@ -47,8 +47,8 @@ class ofxXmlBasedProjectSettings {
 public:
 
 	void init(string path);
-	void init(string path, bool debugInit);
-	void readValuesFromXml(bool debugInit);
+	void init(string path, bool loggingInit);
+	void readValuesFromXml(bool loggingInit);
 	void setLogSettings();
 
 	void addBoolean(string name, bool defautlValue);
@@ -103,7 +103,7 @@ public:
 	void changeXMLPrepareSave(string name, ofColor newValue);
 
 
-	bool debug;
+	bool logging;
 	bool verbose;
 	bool logToFile;
 

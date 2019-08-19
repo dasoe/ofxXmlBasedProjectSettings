@@ -1,4 +1,7 @@
 <SETTINGS>
+	<logging>1</logging>
+	<verbose>1</verbose>
+	<logToFile>0</logToFile>
 	<flag1>0</flag1>
 	<einint>34928</einint>
 	<einefloat>0.4</einefloat>

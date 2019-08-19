@@ -5,14 +5,14 @@ void ofxXmlBasedProjectSettings::init(string path) {
 	init(path, false);
 }
 // -------------------------------
-void ofxXmlBasedProjectSettings::init(string path, bool debugInit) {
+void ofxXmlBasedProjectSettings::init(string path, bool loggingInit) {
 	pathToXML = path;
-	readValuesFromXml(debugInit);
+	readValuesFromXml(loggingInit);
 }
 
 // -------------------------------
-void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
-	if (debugInit) {
+void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
+	if (loggingInit) {
 		lineBreak = "\n  ";
 		startMessages = "";
 		// ---------------------- settings on file ------------------------------
@@ -32,16 +32,16 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool debugInit) {
 			ofExit();
 		}
 
-		if (XML.exists("debug")) {
-			debug = XML.getValue<bool>("debug");
-			startMessages += "XML value found. debug set to " + ofToString(debug) + lineBreak;
+		if (XML.exists("logging")) {
+			logging = XML.getValue<bool>("logging");
+			startMessages += "XML value found. logging set to " + ofToString(logging) + lineBreak;
 		}
 		else {
-			debug = true;
-			startMessages += "no XML value found. debug set to true" + lineBreak;
+			logging = true;
+			startMessages += "no XML value found. logging set to true" + lineBreak;
 		}
 
-		// ------- set Log settings depending on first XML Value (debug) ---------
+		// ------- set Log settings depending on first XML Value (logging) ---------
 		setLogSettings();
 	}
 	else {
@@ -206,7 +206,7 @@ void ofxXmlBasedProjectSettings::setLogSettings() {
 
 	// --------- LOG SETTINGS ---------
 	// log something at all?
-	if (!debug) {
+	if (!logging) {
 		ofSetLogLevel(OF_LOG_FATAL_ERROR);
 	}
 	else {
@@ -357,7 +357,7 @@ void ofxXmlBasedProjectSettings::setBooleanValue(string name, bool newValue) {
 void ofxXmlBasedProjectSettings::setBooleanValue(string name, bool newValue, bool autoSave) {
 	xmlBooleanValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved a moment after you finished adjusting...");
 		changeXMLPrepareSave(name, ofToString(newValue));
 	}
 }
@@ -370,7 +370,7 @@ void ofxXmlBasedProjectSettings::setIntValue(string name, int newValue) {
 void ofxXmlBasedProjectSettings::setIntValue(string name, int newValue, bool autoSave) {
 	xmlIntValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved a moment after you finished adjusting...");
 		changeXMLPrepareSave(name, ofToString(newValue));
 	}
 }
@@ -383,7 +383,7 @@ void ofxXmlBasedProjectSettings::setFloatValue(string name, float newValue) {
 void ofxXmlBasedProjectSettings::setFloatValue(string name, float newValue, bool autoSave) {
 	xmlFloatValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved a moment after you finished adjusting...");
 		changeXMLPrepareSave(name, ofToString(newValue));
 	}
 }
@@ -396,7 +396,7 @@ void ofxXmlBasedProjectSettings::setStringValue(string name, string newValue) {
 void ofxXmlBasedProjectSettings::setStringValue(string name, string newValue, bool autoSave) {
 	xmlStringValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + newValue + " - will be saved in an instant.");
+		ofLogNotice("xml variable | " + name + " | set to " + newValue + " - will be saved a moment after you finished adjusting...");
 		changeXMLPrepareSave(name, newValue);
 	}
 }
@@ -409,7 +409,7 @@ void ofxXmlBasedProjectSettings::setVec2fValue(string name, ofVec2f newValue) {
 void ofxXmlBasedProjectSettings::setVec2fValue(string name, ofVec2f newValue, bool autoSave) {
 	xmlVec2fValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved a moment after you finished adjusting...");
 		changeXMLPrepareSave(name, newValue);
 	}
 }
@@ -422,7 +422,7 @@ void ofxXmlBasedProjectSettings::setVec3fValue(string name, ofVec3f newValue) {
 void ofxXmlBasedProjectSettings::setVec3fValue(string name, ofVec3f newValue, bool autoSave) {
 	xmlVec3fValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved a moment after you finished adjusting...");
 		changeXMLPrepareSave(name, newValue);
 	}
 }
@@ -435,7 +435,7 @@ void ofxXmlBasedProjectSettings::setVec4fValue(string name, ofVec4f newValue) {
 void ofxXmlBasedProjectSettings::setVec4fValue(string name, ofVec4f newValue, bool autoSave) {
 	xmlVec4fValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved a moment after you finished adjusting...");
 		changeXMLPrepareSave(name, newValue);
 	}
 }
@@ -448,7 +448,7 @@ void ofxXmlBasedProjectSettings::setColorValue(string name, ofColor newValue) {
 void ofxXmlBasedProjectSettings::setColorValue(string name, ofColor newValue, bool autoSave) {
 	xmlColorValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved a moment after you finished adjusting...");
 		changeXMLPrepareSave(name, newValue);
 	}
 }
