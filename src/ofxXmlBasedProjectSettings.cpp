@@ -12,6 +12,10 @@ void ofxXmlBasedProjectSettings::init(string path, bool loggingInit) {
 
 // -------------------------------
 void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
+	// comment/uncomment the following line: in the future depending on OF Version 
+	// at the moment: if we manually implemented the changes from our pull request to ofXml...
+	// see https://github.com/openframeworks/openFrameworks/pull/6558
+	// XML.setParsingOptions(OF_PARSE_DEFAULT | OF_PARSE_COMMENTS);	
 	if (loggingInit) {
 		lineBreak = "\n  ";
 		startMessages = "";
