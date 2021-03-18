@@ -2,44 +2,11 @@
 
 #include "ofMain.h"
 
-struct booleanStructProperties {
-	bool value;
-	bool defaultValue;
-};
-
-struct intStructProperties {
-	int value;
-	int defaultValue;
-};
-
-struct floatStructProperties {
-	float value;
-	float defaultValue;
-};
-
-struct stringStructProperties {
-	string value;
-	string defaultValue;
-};
-
-struct vec2fStructProperties {
-	ofVec2f value;
-	ofVec2f defaultValue;
-};
-
-struct vec3fStructProperties {
-	ofVec3f value;
-	ofVec3f defaultValue;
-};
-
-struct vec4fStructProperties {
-	ofVec4f value;
-	ofVec4f defaultValue;
-};
-
-struct colorStructProperties {
-	ofColor value;
-	ofColor defaultValue;
+template <typename T>
+struct genericStructProperties {
+    T value;
+    T defaultValue;
+    bool noDefault = false;
 };
 
 
@@ -52,13 +19,28 @@ public:
 	void setLogSettings();
 
 	void addBoolean(string name, bool defautlValue);
+	void addBoolean(string name);
+
 	void addInt(string name, int defautlValue);
+	void addInt(string name);
+
 	void addFloat(string name, float defautlValue);
+	void addFloat(string name);
+
 	void addString(string name, string defautlValue);
+	void addString(string name);
+
 	void addColor(string name, ofColor defautlValue);
+	void addColor(string name);
+
 	void addVec2f(string name, ofVec2f defautlValue);
+	void addVec2f(string name);
+
 	void addVec3f(string name, ofVec3f defautlValue);
+	void addVec3f(string name);
+
 	void addVec4f(string name, ofVec4f defautlValue);
+	void addVec4f(string name);
 
 
 	void update();
@@ -102,20 +84,26 @@ public:
 	void changeXMLPrepareSave(string name, ofVec4f newValue);
 	void changeXMLPrepareSave(string name, ofColor newValue);
 
+	void valueMissingError(string name);
+	void logValueFound(string name, string valueString);
+	void logNoValueFound(string name, string valueString);
+	void logValueChanged(string name, string valueString);
+	void logNodeMissing(string xml, string name);
+	void logSubNodeMissing(string xml, string subType, string name);
 
 	bool logging;
 	bool verbose;
 	bool logToFile;
 
 private:
-	map < string, booleanStructProperties > xmlBooleanValue;
-	map < string, intStructProperties > xmlIntValue;
-	map < string, floatStructProperties > xmlFloatValue;
-	map < string, stringStructProperties > xmlStringValue;
-	map < string, vec2fStructProperties > xmlVec2fValue;
-	map < string, vec3fStructProperties > xmlVec3fValue;
-	map < string, vec4fStructProperties > xmlVec4fValue;
-	map < string, colorStructProperties > xmlColorValue;
+	map < string, genericStructProperties<bool> > xmlBooleanValue;
+	map < string, genericStructProperties<int> > xmlIntValue;
+	map < string, genericStructProperties<float> > xmlFloatValue;
+	map < string, genericStructProperties<std::string> > xmlStringValue;
+	map < string, genericStructProperties<ofVec2f> > xmlVec2fValue;
+	map < string, genericStructProperties<ofVec3f> > xmlVec3fValue;
+	map < string, genericStructProperties<ofVec4f> > xmlVec4fValue;
+	map < string, genericStructProperties<ofColor> > xmlColorValue;
 
 	string pathToXML;
 	ofXml XML;

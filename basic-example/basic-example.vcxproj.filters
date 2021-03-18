@@ -7,13 +7,7 @@
 		<ClCompile Include="src\main.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
-		<ClCompile Include="src\main.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="src\ofApp.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="..\..\..\..\addons\ofxXmlBasedProjectSettings\src\ofxXmlBasedProjectSettings.cpp">
+		<ClCompile Include="..\..\..\addons\ofxXmlBasedProjectSettings\src\ofxXmlBasedProjectSettings.cpp">
 			<Filter>addons\ofxXmlBasedProjectSettings\src</Filter>
 		</ClCompile>
 	</ItemGroup>
@@ -35,10 +29,7 @@
 		<ClInclude Include="src\ofApp.h">
 			<Filter>src</Filter>
 		</ClInclude>
-		<ClInclude Include="src\ofApp.h">
-			<Filter>src</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\..\..\addons\ofxXmlBasedProjectSettings\src\ofxXmlBasedProjectSettings.h">
+		<ClInclude Include="..\..\..\addons\ofxXmlBasedProjectSettings\src\ofxXmlBasedProjectSettings.h">
 			<Filter>addons\ofxXmlBasedProjectSettings\src</Filter>
 		</ClInclude>
 	</ItemGroup>

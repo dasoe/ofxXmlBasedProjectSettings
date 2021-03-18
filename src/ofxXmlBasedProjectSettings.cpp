@@ -59,22 +59,21 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
 		}
 	}
 
+
 	for (const auto& iterator : xmlStringValue) {
 		//ofLogNotice(iterator.second.defaultValue);
 		//ofLogNotice(ofToString(iterator.second.saveAutomatically));
 		if (XML.getChild(iterator.first)) {
 			xmlStringValue[iterator.first].value = XML.getChild(iterator.first).getValue();
-			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			logValueFound(iterator.first, ofToString(iterator.second.value));
 		}
 		else {
-			if (iterator.second.defaultValue.empty()) {
-				ofLogError("benötigen XML Wert nicht gefunden: " + iterator.first + " scheint zu fehlen. Abbruch.");
-				ofSleepMillis(4000);
-				ofExit();
+			if (iterator.second.noDefault) {
+				valueMissingError(iterator.first);
 			}
 			else {
 				xmlStringValue[iterator.first].value = iterator.second.defaultValue;
-				ofLog(OF_LOG_NOTICE, "no XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+				logNoValueFound(iterator.first, ofToString(iterator.second.value));
 			}
 		}
 	}
@@ -82,17 +81,15 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
 	for (const auto& iterator : xmlIntValue) {
 		if (XML.getChild(iterator.first)) {
 			xmlIntValue[iterator.first].value = XML.getChild(iterator.first).getIntValue();
-			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			logValueFound(iterator.first, ofToString(iterator.second.value));
 		}
 		else {
-			if (iterator.second.defaultValue == NULL) {
-				ofLogError("benötigen XML Wert nicht gefunden: " + iterator.first + " scheint zu fehlen. Abbruch.");
-				ofSleepMillis(4000);
-				ofExit();
+			if (iterator.second.noDefault) {
+                valueMissingError(iterator.first);
 			}
 			else {
 				xmlIntValue[iterator.first].value = iterator.second.defaultValue;
-				ofLog(OF_LOG_NOTICE, "no XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+				logNoValueFound(iterator.first, ofToString(iterator.second.value));
 			}
 		}
 	}
@@ -100,18 +97,16 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
 	for (const auto& iterator : xmlBooleanValue) {
 		if (XML.getChild(iterator.first)) {
 			xmlBooleanValue[iterator.first].value = XML.getChild(iterator.first).getBoolValue();
-			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			logValueFound(iterator.first, ofToString(iterator.second.value));
 		}
 		else {
-			if (iterator.second.defaultValue == NULL) {
-				ofLogError("benötigen XML Wert nicht gefunden: " + iterator.first + " scheint zu fehlen. Abbruch.");
-				ofSleepMillis(4000);
-				ofExit();
+			if (iterator.second.noDefault) {
+                valueMissingError(iterator.first);
 			}
 			else {
 
 				xmlBooleanValue[iterator.first].value = iterator.second.defaultValue;
-				ofLog(OF_LOG_NOTICE, "no XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+				logNoValueFound(iterator.first, ofToString(iterator.second.value));
 			}
 		}
 	}
@@ -119,18 +114,16 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
 	for (const auto& iterator : xmlFloatValue) {
 		if (XML.getChild(iterator.first)) {
 			xmlFloatValue[iterator.first].value = XML.getChild(iterator.first).getFloatValue();
-			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			logValueFound(iterator.first, ofToString(iterator.second.value));
 		}
 		else {
-			if (iterator.second.defaultValue == NULL) {
-				ofLogError("benötigen XML Wert nicht gefunden: " + iterator.first + " scheint zu fehlen. Abbruch.");
-				ofSleepMillis(4000);
-				ofExit();
+			if (iterator.second.noDefault) {
+                valueMissingError(iterator.first);
 			}
 			else {
 
 				xmlFloatValue[iterator.first].value = iterator.second.defaultValue;
-				ofLog(OF_LOG_NOTICE, "no XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+				logNoValueFound(iterator.first, ofToString(iterator.second.value));
 			}
 		}
 	}
@@ -140,11 +133,16 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
 			ofXml inside = XML.getChild(iterator.first);
 
 			xmlVec2fValue[iterator.first].value = ofVec2f(inside.getChild("x").getFloatValue(), inside.getChild("y").getFloatValue());
-			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			logValueFound(iterator.first, ofToString(iterator.second.value));
 		}
 		else {
-				xmlVec2fValue[iterator.first].value = iterator.second.defaultValue;
-				ofLog(OF_LOG_NOTICE, "no XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+            if (iterator.second.noDefault) {
+                valueMissingError(iterator.first);
+            }
+            else {
+                xmlVec2fValue[iterator.first].value = iterator.second.defaultValue;
+                logNoValueFound(iterator.first, ofToString(iterator.second.value));
+            }
 		}
 	}
 
@@ -153,12 +151,16 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
 			ofXml inside = XML.getChild(iterator.first);
 
 			xmlVec3fValue[iterator.first].value = ofVec3f(inside.getChild("x").getFloatValue(), inside.getChild("y").getFloatValue(), inside.getChild("z").getFloatValue());
-			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			logValueFound(iterator.first, ofToString(iterator.second.value));
 		}
 		else {
-
-				xmlVec3fValue[iterator.first].value = iterator.second.defaultValue;
-				ofLog(OF_LOG_NOTICE, "no XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+            if (iterator.second.noDefault) {
+                valueMissingError(iterator.first);
+            }
+            else {
+                xmlVec3fValue[iterator.first].value = iterator.second.defaultValue;
+                logNoValueFound(iterator.first, ofToString(iterator.second.value));
+            }
 		}
 	}
 
@@ -166,14 +168,18 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
 		if (XML.getChild(iterator.first)) {
 			ofXml inside = XML.getChild(iterator.first);
 
-			xmlVec3fValue[iterator.first].value = ofVec4f(inside.getChild("x").getFloatValue(), inside.getChild("y").getFloatValue(), inside.getChild("z").getFloatValue(), inside.getChild("w").getFloatValue());
-			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			xmlVec4fValue[iterator.first].value = ofVec4f(inside.getChild("x").getFloatValue(), inside.getChild("y").getFloatValue(), inside.getChild("z").getFloatValue(), inside.getChild("w").getFloatValue());
+			logValueFound(iterator.first, ofToString(iterator.second.value));
 		}
-		else {
-
-				xmlVec4fValue[iterator.first].value = iterator.second.defaultValue;
-				ofLog(OF_LOG_NOTICE, "no XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
-		}
+        else {
+            if (iterator.second.noDefault) {
+                valueMissingError(iterator.first);
+            }
+            else {
+                xmlVec4fValue[iterator.first].value = iterator.second.defaultValue;
+                logNoValueFound(iterator.first, ofToString(iterator.second.value));
+            }
+        }
 	}
 
 	for (const auto& iterator : xmlColorValue) {
@@ -181,18 +187,17 @@ void ofxXmlBasedProjectSettings::readValuesFromXml(bool loggingInit) {
 			ofXml inside = XML.getChild(iterator.first);
 
 			xmlColorValue[iterator.first].value = ofColor( inside.getChild("r").getFloatValue(), inside.getChild("g").getFloatValue(), inside.getChild("b").getFloatValue(), (inside.getChild("a")) ? inside.getChild("a").getFloatValue() : 255);
-			ofLog(OF_LOG_NOTICE, "XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+			
+			logValueFound(iterator.first, ofToString(iterator.second.value));
 		}
 		else {
-			if (iterator.second.defaultValue == NULL) {
-				ofLogError("benötigen XML Wert nicht gefunden: " + iterator.first + " scheint zu fehlen. Abbruch.");
-				ofSleepMillis(4000);
-				ofExit();
+			if (iterator.second.noDefault) {
+                valueMissingError(iterator.first);
 			}
 			else {
 
 				xmlColorValue[iterator.first].value = iterator.second.defaultValue;
-				ofLog(OF_LOG_NOTICE, "no XML value found. " + iterator.first + " set to " + ofToString(iterator.second.value));
+				logNoValueFound(iterator.first, ofToString(iterator.second.value));
 			}
 		}
 	}
@@ -250,44 +255,68 @@ void ofxXmlBasedProjectSettings::setLogSettings() {
 
 
 // -------------------------------
-void ofxXmlBasedProjectSettings::addBoolean(string name, bool defautlValue) {
-	xmlBooleanValue[name].defaultValue = defautlValue;
+void ofxXmlBasedProjectSettings::addBoolean(string name) {
+    xmlBooleanValue[name].noDefault = true;
+}
+void ofxXmlBasedProjectSettings::addBoolean(string name, bool defaultValue) {
+    xmlBooleanValue[name].defaultValue = defaultValue;
 }
 
 // -------------------------------
+void ofxXmlBasedProjectSettings::addInt(string name) {
+    xmlIntValue[name].noDefault = true;
+}
 void ofxXmlBasedProjectSettings::addInt(string name, int defautlValue) {
-	xmlIntValue[name].defaultValue = defautlValue;
+    xmlIntValue[name].defaultValue = defautlValue;
 }
 
 // -------------------------------
+void ofxXmlBasedProjectSettings::addFloat(string name) {
+    xmlFloatValue[name].noDefault = true;
+}
 void ofxXmlBasedProjectSettings::addFloat(string name, float defautlValue) {
-	xmlFloatValue[name].defaultValue = defautlValue;
+    xmlFloatValue[name].defaultValue = defautlValue;
 }
 
 // -------------------------------
+void ofxXmlBasedProjectSettings::addString(string name) {
+    xmlStringValue[name].noDefault = true;
+}
 void ofxXmlBasedProjectSettings::addString(string name, string defautlValue) {
-	xmlStringValue[name].defaultValue = defautlValue;
+    xmlStringValue[name].defaultValue = defautlValue;
 }
 
 
 // -------------------------------
+void ofxXmlBasedProjectSettings::addVec2f(string name) {
+    xmlVec2fValue[name].noDefault = true;
+}
 void ofxXmlBasedProjectSettings::addVec2f(string name, ofVec2f defautlValue) {
-	xmlVec2fValue[name].defaultValue = defautlValue;
+    xmlVec2fValue[name].defaultValue = defautlValue;
 }
 
 // -------------------------------
+void ofxXmlBasedProjectSettings::addVec3f(string name) {
+    xmlVec3fValue[name].noDefault = true;
+}
 void ofxXmlBasedProjectSettings::addVec3f(string name, ofVec3f defautlValue) {
-	xmlVec3fValue[name].defaultValue = defautlValue;
+    xmlVec3fValue[name].defaultValue = defautlValue;
 }
 
 // -------------------------------
+void ofxXmlBasedProjectSettings::addVec4f(string name) {
+    xmlVec4fValue[name].noDefault = true;
+}
 void ofxXmlBasedProjectSettings::addVec4f(string name, ofVec4f defautlValue) {
-	xmlVec4fValue[name].defaultValue = defautlValue;
+    xmlVec4fValue[name].defaultValue = defautlValue;
 }
 
 // -------------------------------
+void ofxXmlBasedProjectSettings::addColor(string name) {
+    xmlColorValue[name].noDefault = true;
+}
 void ofxXmlBasedProjectSettings::addColor(string name, ofColor defautlValue) {
-	xmlColorValue[name].defaultValue = defautlValue;
+    xmlColorValue[name].defaultValue = defautlValue;
 }
 
 
@@ -358,7 +387,7 @@ void ofxXmlBasedProjectSettings::setBooleanValue(string name, bool newValue) {
 void ofxXmlBasedProjectSettings::setBooleanValue(string name, bool newValue, bool autoSave) {
 	xmlBooleanValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		logValueChanged(name, ofToString(newValue));
 		changeXMLPrepareSave(name, ofToString(newValue));
 	}
 }
@@ -371,7 +400,7 @@ void ofxXmlBasedProjectSettings::setIntValue(string name, int newValue) {
 void ofxXmlBasedProjectSettings::setIntValue(string name, int newValue, bool autoSave) {
 	xmlIntValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		logValueChanged(name, ofToString(newValue));;
 		changeXMLPrepareSave(name, ofToString(newValue));
 	}
 }
@@ -384,7 +413,7 @@ void ofxXmlBasedProjectSettings::setFloatValue(string name, float newValue) {
 void ofxXmlBasedProjectSettings::setFloatValue(string name, float newValue, bool autoSave) {
 	xmlFloatValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		logValueChanged(name, ofToString(newValue));;
 		changeXMLPrepareSave(name, ofToString(newValue));
 	}
 }
@@ -397,7 +426,7 @@ void ofxXmlBasedProjectSettings::setStringValue(string name, string newValue) {
 void ofxXmlBasedProjectSettings::setStringValue(string name, string newValue, bool autoSave) {
 	xmlStringValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + newValue + " - will be saved in an instant.");
+		logValueChanged(name, newValue);
 		changeXMLPrepareSave(name, newValue);
 	}
 }
@@ -410,7 +439,7 @@ void ofxXmlBasedProjectSettings::setVec2fValue(string name, ofVec2f newValue) {
 void ofxXmlBasedProjectSettings::setVec2fValue(string name, ofVec2f newValue, bool autoSave) {
 	xmlVec2fValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		logValueChanged(name, ofToString(newValue));;
 		changeXMLPrepareSave(name, newValue);
 	}
 }
@@ -423,7 +452,7 @@ void ofxXmlBasedProjectSettings::setVec3fValue(string name, ofVec3f newValue) {
 void ofxXmlBasedProjectSettings::setVec3fValue(string name, ofVec3f newValue, bool autoSave) {
 	xmlVec3fValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		logValueChanged(name, ofToString(newValue));;
 		changeXMLPrepareSave(name, newValue);
 	}
 }
@@ -436,7 +465,7 @@ void ofxXmlBasedProjectSettings::setVec4fValue(string name, ofVec4f newValue) {
 void ofxXmlBasedProjectSettings::setVec4fValue(string name, ofVec4f newValue, bool autoSave) {
 	xmlVec4fValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		logValueChanged(name, ofToString(newValue));;
 		changeXMLPrepareSave(name, newValue);
 	}
 }
@@ -449,7 +478,7 @@ void ofxXmlBasedProjectSettings::setColorValue(string name, ofColor newValue) {
 void ofxXmlBasedProjectSettings::setColorValue(string name, ofColor newValue, bool autoSave) {
 	xmlColorValue[name].value = newValue;
 	if (autoSave) {
-		ofLogNotice("xml variable | " + name + " | set to " + ofToString(newValue) + " - will be saved in an instant.");
+		logValueChanged(name, ofToString(newValue));;
 		changeXMLPrepareSave(name, newValue);
 	}
 }
@@ -463,7 +492,7 @@ void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, string newVal
 		XML.getChild(name).set(newValue);
 	}
 	else {
-		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
+		logNodeMissing(ofToString(pathToXML), ofToString(name));
 	}
 	xmlChanged = true;
 	xmlChangeSaveTimer = ofGetElapsedTimeMillis();
@@ -492,14 +521,15 @@ void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofColor newVa
 			inside.getChild("a").set(ofToString(alpha));
 		}
 		else {
-			ofLogWarning("Versuch in " + ofToString(pathToXML) + " in einen nicht vorhandenen Sub-Knoten (r/g/b/a) von " + ofToString(name) + " zu speichern. Sub-Knoten bitte manuell anlegen.");
+			logSubNodeMissing(ofToString(pathToXML), "r/g/b/a", ofToString(name));
 		}
 	}
 	else {
-		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
+		logNodeMissing(ofToString(pathToXML), ofToString(name));
 	}
 	xmlChanged = true;
 	xmlChangeSaveTimer = ofGetElapsedTimeMillis();
+
 }
 
 //--------------------------------------------------------------
@@ -516,11 +546,11 @@ void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofVec2f newVa
 			inside.getChild("y").set(ofToString(newValue.y));
 		}
 		else {
-			ofLogWarning("Versuch in " + ofToString(pathToXML) + " in einen nicht vorhandenen Sub-Knoten (x/y) von " + ofToString(name) + " zu speichern. Sub-Knoten bitte manuell anlegen.");
+			logSubNodeMissing(ofToString(pathToXML), "x/y", ofToString(name));
 		}
 	}
 	else {
-		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
+		logNodeMissing(ofToString(pathToXML), ofToString(name));		
 	}
 	xmlChanged = true;
 	xmlChangeSaveTimer = ofGetElapsedTimeMillis();
@@ -542,12 +572,12 @@ void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofVec3f newVa
 			inside.getChild("z").set(ofToString(newValue.z));
 		}
 		else {
-			ofLogWarning("Versuch in " + ofToString(pathToXML) + " in einen nicht vorhandenen Sub-Knoten (x/y/z) von " + ofToString(name) + " zu speichern. Sub-Knoten bitte manuell anlegen.");
+			logSubNodeMissing(ofToString(pathToXML), "x/y/z", ofToString(name));
 		}
 
 	}
 	else {
-		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
+		logNodeMissing(ofToString(pathToXML), ofToString(name));
 	}
 	xmlChanged = true;
 	xmlChangeSaveTimer = ofGetElapsedTimeMillis();
@@ -571,13 +601,46 @@ void ofxXmlBasedProjectSettings::changeXMLPrepareSave(string name, ofVec4f newVa
 			inside.getChild("w").set(ofToString(newValue.w));
 		}
 		else {
-			ofLogWarning("Versuch in " + ofToString(pathToXML) + " in einen nicht vorhandenen Sub-Knoten (x/y/z/w) von " + ofToString(name) + " zu speichern. Sub-Knoten bitte manuell anlegen.");
+			logSubNodeMissing(ofToString(pathToXML), "x/y/z/w", ofToString(name));
 		}
 
 	}
 	else {
-		ofLogWarning("Versuch einen in " + ofToString(pathToXML) + " nicht vorhandenen Knoten (" + ofToString(name) + ") zu speichern. Knoten bitte manuell anlegen.");
+		logNodeMissing(ofToString(pathToXML), ofToString(name));
 	}
 	xmlChanged = true;
 	xmlChangeSaveTimer = ofGetElapsedTimeMillis();
+}
+
+//--------------------------------------------------------------
+void ofxXmlBasedProjectSettings::valueMissingError(string name) {
+	ofLogFatalError("benötigen XML Wert nicht gefunden: " + name + " scheint zu fehlen. Abbruch.");
+	ofSleepMillis(4000);
+	ofExit();
+}
+
+//--------------------------------------------------------------
+void ofxXmlBasedProjectSettings::logValueFound(string name, string valueString) {
+	ofLog(OF_LOG_NOTICE, "XML value found. " + name + " set to " + valueString);
+}
+
+//--------------------------------------------------------------
+void ofxXmlBasedProjectSettings::logNoValueFound(string name, string valueString) {
+	ofLog(OF_LOG_NOTICE, "no XML value found. " + name + " set to " + valueString);
+}
+
+
+//--------------------------------------------------------------
+void ofxXmlBasedProjectSettings::logValueChanged(string name, string valueString) {
+	ofLogNotice("xml variable | " + name + " | set to " + valueString + " - will be saved in an instant.");
+}
+
+//--------------------------------------------------------------
+void ofxXmlBasedProjectSettings::logNodeMissing(string xml, string name) {
+	ofLogWarning("Versuch einen in " + xml + " nicht vorhandenen Knoten (" + name + ") zu speichern. Knoten bitte manuell anlegen.");
+}
+
+//--------------------------------------------------------------
+void ofxXmlBasedProjectSettings::logSubNodeMissing(string xml, string subType, string name) {
+	ofLogWarning("Versuch in " + ofToString(pathToXML) + " in einen nicht vorhandenen Sub-Knoten (" + subType + ") von " + ofToString(name) + " zu speichern. Sub-Knoten bitte manuell anlegen.");
 }
