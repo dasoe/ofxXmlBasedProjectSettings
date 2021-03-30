@@ -17,7 +17,6 @@ Basic xml variable handling and standard features I need in nearly any project:
 ### **2) in setup():**
 
 add XML variables: Give it a default/fallback value.  
-On init() the XML is checked for these variables and if found default/fallback value is overridden.  
 Standard procedure is to add all XML variables like below in setup() and later use the setter functions if those variables are altered.  
 Please do not set a variable later in code without having added it first - it can be used and even be saved in XML (node has to be present - will not be auto-generated). But it might not be treated correctly in init().  
     
@@ -42,7 +41,8 @@ Please do not set a variable later in code without having added it first - it ca
 
 ### **3) in setup():**
 
-init the xml. The added variables will be processed    
+init the xml. The added variables will be processed: the XML is checked for the added variables and if found default/fallback value is overridden. 
+  
 Second parameter switches on logging stuff: When true, the variables "logging", "verbose" and "logToFile" will be added, which control the logging output (everything that is sent through ofLog functions). Should be used in the main/first xml object/file  
     
     settingsXml.init("settings.xml",true);  
