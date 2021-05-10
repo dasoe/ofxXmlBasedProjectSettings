@@ -1,7 +1,7 @@
 **XML settings addon for standard settings - for of 0.10.x/0.11.x/..**  
 Basic xml variable handling and standard features I need in nearly any project:
 - getters and setters for most common variable types (no groups, though)
-- Default variables in code that will be overwritten if variable is present in xml file
+- Default variables in code that will be overwritten, if variable is present in xml file
 - optional auto-saving at setting of variable (note that variable has to be present in xml file for this function. It will not be auto-created!)
 - verbose output of what's happening
 - logging functionality included: log level and log type (terminal/file) can be defined through standard xml variables (variable "debug" has been renamed to "logging"! as it is much more appropriate)
@@ -38,7 +38,6 @@ Please do not set a variable later in code without having added it first - it ca
 	settingsXml.addColor("requiredBeige");  
     ...
 
-
 ### **3) in setup():**
 
 init the xml. The added variables will be processed: the XML is checked for the added variables and if found default/fallback value is overridden. 
@@ -57,6 +56,12 @@ do the same for other objects/files, but logging stuff should not be used anothe
 
 
 Then all the variables can be set in XML and are ready for use.
+
+### **updating in update():**
+
+in case you want to use the auto-save functionality, you have to update.  
+
+	settingsXml.update();  
 
 
 ### **getting Variables:**
