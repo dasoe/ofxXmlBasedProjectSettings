@@ -16,7 +16,7 @@ Basic xml variable handling and standard features I need in nearly any project:
 
 ### **2) in setup():**
 
-add XML variables: Give it a default/fallback value.  
+add your own XML variables and give it a default/fallback value.  
 Standard procedure is to add all XML variables like below in setup() and later use the setter functions if those variables are altered.  
 Please do not set a variable later in code without having added it first - it can be used and even be saved in XML (node has to be present - will not be auto-generated). But it might not be treated correctly in init().  
     
@@ -37,6 +37,7 @@ Please do not set a variable later in code without having added it first - it ca
 	settingsXml.addString("hintergrundBild");  
 	settingsXml.addColor("requiredBeige");  
     ...
+
 
 ### **3) in setup():**
 
@@ -94,13 +95,16 @@ Second property is new value, third property switches auto save on: Value is sav
 
 ### **XML structure**
 
-The xml structure (includign sub nodes) is analog to the use of the variable types in OF. boolean value is set by using 0/1.
+The xml structure (including sub nodes) is analog to the use of the variable types in OF. boolean value is set by using 0/1.
 
-logging part 
+##### logging part #####
+Please note that these 3 parameters are hardcoded. You can use them in your XML when you init your first xml file with the second parameter set to true (see above). You do not have to add them in your c++ code.
 
     <logging>1</logging>
     <verbose>0</verbose>
     <logToFile>0</logToFile>
+
+##### Next you define your own values (you have to set the paramters/nodes in setup() before, see above) #####
 
 boolean:
 
